@@ -15,12 +15,12 @@ git branch: 'development', credentialsId: 'g', url: 'https://github.com/mahesh28
 stage('Build'){
 sh "${mavenHome}/bin/mvn clean package"
 }
-/*
+
 //Execute the SonarQube Report
 stage('ExecuteSonarQubeReport'){
 sh "${mavenHome}/bin/mvn sonar:sonar"
 }
-
+/*
 
 //Upload Artifacts into Artifactory Repo
 stage('UploadArtifactsintoNexus'){
