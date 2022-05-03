@@ -1,6 +1,6 @@
 def sendSlackNotification(String buildStatus = 'STARTED') {
   
-  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+  buildStatus =  buildStatus ?: 'SUCCESS'
 
   // Default values
   def colorName = 'RED'
@@ -12,7 +12,7 @@ def sendSlackNotification(String buildStatus = 'STARTED') {
   if (buildStatus == 'STARTED') {
     color = 'YELLOW'
     colorCode = '#FFFF00'
-  } else if (buildStatus == 'SUCCESSFUL') {
+  } else if (buildStatus == 'SUCCESS') {
     color = 'GREEN'
     colorCode = '#00FF00'
   } else {
@@ -36,6 +36,7 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
 
 def mavenHome = tool name: 'maven3.8.4'
 
+Try{
 //Get the code from Github Repo
 stage('CheckoutCode'){
 git branch: 'development', credentialsId: 'g', url: 'https://github.com/mahesh2853/maven-web-application.git'
@@ -60,7 +61,19 @@ sh "${mavenHome}/bin/mvn deploy"
 stage('DeployApplicationIntoTomcatServer'){
 sshagent(['304675f1-190d-432d-89de-6a7e595d2bbf']) {
 sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.233.152.102:/opt/apache-tomcat-9.0.62/webapps/"
+}
+} 
+}//Try Closing
+ 
+catch(e)
 
+{
+currentBuild.result = "FAILED"
 }
+
+finally{
+
+sendSlackNotification(currentBuild.result)
 }
-  }
+  
+  }//Node Closing
