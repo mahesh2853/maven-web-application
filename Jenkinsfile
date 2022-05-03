@@ -36,12 +36,12 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
 
 def mavenHome = tool name: 'maven3.8.4'
 
-Try{
+try{
 //Get the code from Github Repo
 stage('CheckoutCode'){
 git branch: 'development', credentialsId: 'g', url: 'https://github.com/mahesh2853/maven-web-application.git'
-
 }
+  
 //Do the build by using Maven Build tool
 stage('Build'){
 sh "${mavenHome}/bin/mvn clean package"
@@ -63,7 +63,7 @@ sshagent(['304675f1-190d-432d-89de-6a7e595d2bbf']) {
 sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.233.152.102:/opt/apache-tomcat-9.0.62/webapps/"
 }
 } 
-}//Try Closing
+}//try Closing
  
 catch(e)
 
@@ -76,4 +76,4 @@ finally{
 sendSlackNotification(currentBuild.result)
 }
   
-  }//Node Closing
+}//Node Closing
