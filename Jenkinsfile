@@ -1,4 +1,4 @@
-def sendSlackNotification(String buildStatus = 'STARTED') {
+def sendSlackNotifications(String buildStatus = 'STARTED') {
   
   buildStatus =  buildStatus ?: 'SUCCESS'
 
@@ -38,7 +38,7 @@ def mavenHome = tool name: 'maven3.8.4'
 
 try{
   
-sendSlackNotification(STARTED')
+sendSlackNotifications('STARTED')
 
 //Get the code from Github Repo
 stage('CheckoutCode'){
@@ -76,7 +76,7 @@ currentBuild.result = "FAILED"
 
 finally{
 
-sendSlackNotification(currentBuild.result)
+sendSlackNotifications(currentBuild.result)
 }
   
 }//Node Closing
