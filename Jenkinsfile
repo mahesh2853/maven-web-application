@@ -47,7 +47,7 @@ git branch: 'development', credentialsId: 'g', url: 'https://github.com/mahesh28
   
 //Do the build by using Maven Build tool
 stage('Build'){
-sh "${mavenHome}/bin/mvn clean package"
+sh "${mavenHome}/bin/mvn clean packag"
 }
 
 //Execute the SonarQube Report
