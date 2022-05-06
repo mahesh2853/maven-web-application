@@ -1,6 +1,6 @@
 def sendSlackNotifications(String buildStatus = 'STARTED') {
   
-  buildStatus =  buildStatus ?: 'SUCCESS'
+  buildStatus =  buildStatus ?: 'SUCCES'
 
   // Default values
   def colorName = 'RED'
